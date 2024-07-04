@@ -1,0 +1,80 @@
+[gd_scene load_steps=4 format=3 uid="uid://byoeaq8qx276u"]
+
+[ext_resource type="Script" path="res://HoleArea3D.gd" id="1_tlt5c"]
+[ext_resource type="PackedScene" uid="uid://vxkyl0ho3dku" path="res://ball.tscn" id="1_ys6aw"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6qu53"]
+height = 5.0
+radius = 3.0
+
+[node name="Level" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(50, 1, 50)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -12)
+size = Vector3(2, 2, 2)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 10.5, 1.2, -12)
+size = Vector3(7, 2, 2)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10.5, 1.2, 8)
+size = Vector3(7, 2, 2)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 10.5, 1.2, -2)
+size = Vector3(7, 2, 2)
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8, 10)
+radius = 10.0
+radial_segments = 32
+rings = 32
+
+[node name="CSGSphere3D2" type="CSGSphere3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 9.8, 10)
+operation = 2
+radius = 10.0
+radial_segments = 32
+rings = 32
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, 0)
+operation = 2
+radius = 3.0
+height = 5.0
+sides = 32
+
+[node name="HoleArea3D" type="Area3D" parent="CSGBox3D/CSGCylinder3D"]
+script = ExtResource("1_tlt5c")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CSGBox3D/CSGCylinder3D/HoleArea3D"]
+shape = SubResource("CylinderShape3D_6qu53")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 0, 0)
+size = Vector3(1, 5, 50)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, 0)
+size = Vector3(1, 5, 50)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -1, 0, -24)
+size = Vector3(1, 5, 50)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="CSGBox3D"]
+transform = Transform3D(2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -1, 0, 25)
+size = Vector3(1, 5, 50)
+
+[node name="Ball" parent="." instance=ExtResource("1_ys6aw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 2)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 21, 0)
+
+[connection signal="body_entered" from="CSGBox3D/CSGCylinder3D/HoleArea3D" to="CSGBox3D/CSGCylinder3D/HoleArea3D" method="_on_body_entered"]

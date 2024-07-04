@@ -1,0 +1,49 @@
+[gd_scene load_steps=10 format=3 uid="uid://vxkyl0ho3dku"]
+
+[ext_resource type="Script" path="res://Ball.gd" id="1_nn0yt"]
+[ext_resource type="Texture2D" uid="uid://dj1l84i0igaqi" path="res://icon.svg" id="2_lwynf"]
+[ext_resource type="Script" path="res://PositionObject.gd" id="3_6c8u0"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ph2rn"]
+bounce = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_syqxw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_42nrd"]
+albedo_texture = ExtResource("2_lwynf")
+
+[sub_resource type="SphereMesh" id="SphereMesh_p75gb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h7djq"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_7bnlh"]
+size = Vector3(0.5, 1, 0.25)
+
+[node name="Ball" type="RigidBody3D" groups=["Player"]]
+mass = 0.05
+physics_material_override = SubResource("PhysicsMaterial_ph2rn")
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_nn0yt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_syqxw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_42nrd")
+mesh = SubResource("SphereMesh_p75gb")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 25, 0)
+script = ExtResource("3_6c8u0")
+
+[node name="Marker3D" type="Marker3D" parent="."]
+script = ExtResource("3_6c8u0")
+
+[node name="DirectionArrow" type="MeshInstance3D" parent="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -2)
+material_overlay = SubResource("StandardMaterial3D_h7djq")
+transparency = 0.25
+mesh = SubResource("PrismMesh_7bnlh")
+skeleton = NodePath("../..")
